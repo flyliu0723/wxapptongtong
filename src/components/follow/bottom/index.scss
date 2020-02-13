@@ -1,0 +1,38 @@
+.bottom {
+    height: 44px;
+    line-height: 44px;
+    font-size: 14px;
+    width: 100%;
+    display: flex;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+.checkAll {
+    flex: 2;
+    color: #030303;
+    float: left;
+    padding-left: 15px;
+    background: #fff;
+}
+.check-btn {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #333;
+    border-radius: 50%;
+    margin: -3px 10px 0 0;
+    vertical-align: middle;
+}
+.select {
+    background: url(//timgs-v1.tongtongmall.com/e0b9488f945147e9a587638d548ac470)
+        center center no-repeat;
+    background-size: 20px;
+    border: 1px solid transparent;
+}
+.move {
+    flex: 1;
+    background-color: #e32525;
+    color: #fff;
+    text-align: center;
+}

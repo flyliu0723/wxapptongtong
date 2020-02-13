@@ -1,0 +1,65 @@
+.addr {
+    margin-bottom: 10px;
+    width: 100%;
+    background-color: #fff;
+    padding: 15px 15px 0 15px;
+    color: #090909;
+}
+.user-msg {
+    font-weight: bold;
+}
+.user-msg .phone {
+    display: inline-block;
+    margin-left: 20px;
+}
+.address {
+    display: inline-block;
+    line-height: 18px;
+    height: 25px;
+    padding: 8px 0 3px;
+    font-size: 12px;
+}
+.operation {
+    color: #969696;
+    font-size: 12px;
+    height: 35px;
+    padding-top: 5px;
+    border-top: 1px solid #e8eeec;
+    line-height: 35px;
+    width: calc(100% - 30px);
+}
+.default {
+    display: inline-block;
+}
+.circle {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border: 1px solid #969696;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin: -3px 5px 0 0;
+}
+.operation .select {
+    background: url(//timgs-v1.tongtongmall.com/1a7dcb69) center center
+        no-repeat;
+    background-size: 17px;
+    border: 1px solid transparent;
+}
+.handle {
+    float: right;
+}
+.handle .edit {
+    margin-right: 20px;
+    display: inline-block;
+}
+.handle .del {
+    display: inline-block;
+}
+.handle .img {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin: -1px 5px 0 0;
+}

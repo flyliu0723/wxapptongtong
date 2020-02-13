@@ -1,0 +1,21 @@
+.index-menu {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 12px;
+    .item {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 25%;
+        margin-bottom: 12px;
+    }
+    .img {
+        width: 44px;
+        height: 44px;
+    }
+    .text {
+        font-size: 14px;
+        margin-top: 4px;
+    }
+}

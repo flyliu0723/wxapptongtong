@@ -1,0 +1,55 @@
+.item_msg {
+    margin-bottom: 12px;
+    padding-bottom: 15px;
+}
+.tips {
+    width: 94%;
+    padding: 0 3%;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 40px;
+}
+.tips .title {
+    font-weight: bold;
+    float: left;
+    padding: 0 8px;
+    position: relative;
+}
+.tips .title::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 0;
+    height: 14px;
+    border-left: 2px solid #e32525;
+}
+.tips .more {
+    float: right;
+}
+.item_list {
+    display: flex;
+    width: 100%;
+}
+.item_list .list {
+    flex: 1;
+    text-align: center;
+    color: #666666;
+}
+.item_list .list .icon {
+    display: inline-block;
+    margin: 0 auto 5px;
+}
+.item_list .list .text {
+    display: inline-block;
+    width: 100%;
+}
+
+.order .item_list {
+    font-size: 14px;
+}
+.order .item_list .list .icon {
+    width: 45px;
+    height: 45px;
+}

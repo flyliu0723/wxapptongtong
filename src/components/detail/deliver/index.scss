@@ -1,0 +1,46 @@
+.delivery {
+    padding: 21px 0;
+    margin: 0 15px;
+    display: flex;
+    border-bottom: solid 1px #eaeaea;
+    .name {
+        font-size: 12px;
+        color: #9a9a9a;
+        flex: 1;
+    }
+    .list {
+        flex: 10;
+        padding: 0 20px;
+        .tab {
+            display: block;
+        }
+        .address {
+            font-size: 14px;
+            color: #212121;
+        }
+        .limit {
+            font-size: 12px;
+            color: #565758;
+            margin-top: 9px;
+        }
+    }
+    .to {
+        width: 7.5px;
+        height: 12.5px;
+    }
+}
+.service {
+    line-height: 52px;
+    padding: 0 15px;
+    .tab {
+        margin-right: 15px;
+        display: inline-block;
+        font-size: 12px;
+        color: #565758;
+        .img {
+            width: 14px;
+            height: 14px;
+            margin-right: 5px;
+        }
+    }
+}

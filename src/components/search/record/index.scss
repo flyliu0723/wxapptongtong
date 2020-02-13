@@ -1,0 +1,28 @@
+.record {
+    margin-bottom: 14px;
+    padding: 0 16px 14px;
+    background-color: #fff;
+    .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 40px;
+        font-size: 14px;
+        color: #999999;
+    }
+
+    .list {
+        line-height: 24px;
+    }
+    .item {
+        border: 1px solid #f3f3f3;
+        padding: 0 12px;
+        height: 24px;
+        display: inline-block;
+        border-radius: 4px;
+        font-size: 14px;
+        margin-right: 20px;
+        margin-bottom: 4px;
+        color: black;
+    }
+}

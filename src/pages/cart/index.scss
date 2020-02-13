@@ -1,0 +1,164 @@
+.view {
+    margin-top: 15px;
+    .choice-btn {
+        width: 16px;
+        height: 16px;
+        margin-right: 10px;
+    }
+    .store {
+        border-bottom: solid 10px #eaeaea;
+        .store-name {
+            display: flex;
+            padding: 10px 15px;
+            border-bottom: solid 1px #eaeaea;
+            .store-img {
+                width: 18px;
+                height: 18px;
+                margin-right: 10px;
+            }
+            .name {
+                font-size: 14px;
+                font-weight: bold;
+                flex: 3;
+            }
+            .tip {
+                font-size: 12px;
+                color: #969696;
+                text-align: right;
+                flex: 1;
+            }
+        }
+        .goods-list {
+            padding: 0 15px;
+            .goods {
+                display: flex;
+                padding: 15px 0 0;
+                .choice {
+                    width: 30px;
+                    line-height: 100px;
+                }
+                .goods-tab {
+                    flex: 1;
+                    display: flex;
+                    flex-wrap: wrap;
+                    border-bottom: solid 1px #eaeaea;
+                    .goods-img {
+                        width: 94px;
+                        height: 94px;
+                    }
+                    .message {
+                        flex: 1;
+                        .title {
+                            height: 39px;
+                            line-height: 19.5px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 2;
+                            font-size: 14px;
+                            color: #090909;
+                        }
+                        .other {
+                            display: flex;
+                            margin-top: 17px;
+                            .price {
+                                flex: 1;
+                                font-size: 14px;
+                                color: #e71b29;
+                                font-weight: bold;
+                            }
+                            .num {
+                                flex: 1;
+                            }
+                        }
+                    }
+                    .zp {
+                        display: flex;
+                        width: 100%;
+                        padding: 10px 0;
+                        .name {
+                            flex: 1;
+                            font-size: 12px;
+                            color: #090909;
+                            .tip {
+                                color: #e32525;
+                            }
+                        }
+                        .num {
+                            flex: 1;
+                            text-align: right;
+                            font-size: 12px;
+                            color: #090909;
+                        }
+                    }
+                }
+            }
+        }
+        .sub {
+            line-height: 50px;
+            padding: 0 15px;
+            font-size: 12px;
+            display: flex;
+            border-top: solid 1px #eaeaea;
+            .price {
+                flex: 1;
+                color: #232323;
+                .font {
+                    color: #e32525;
+                }
+            }
+            .tax {
+                flex: 1;
+                color: #090909;
+                text-align: right;
+                .img {
+                    width: 17px;
+                    height: 17px;
+                    position: relative;
+                    top: 3px;
+                    margin-left: 3px;
+                }
+            }
+        }
+    }
+    .actions {
+        display: flex;
+        height: 44px;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        border-top: solid 1px #eaeaea;
+        background: #fff;
+        opacity: 1;
+        z-index: 2;
+        .choice {
+            line-height: 50px;
+            padding-left: 11px;
+        }
+        .sub {
+            flex: 3;
+            margin-left: 15px;
+            .sub-price {
+                font-size: 12px;
+                color: #090909;
+                margin-top: 5px;
+                .font {
+                    color: #e32525;
+                    font-size: 15px;
+                }
+            }
+            .goods-price {
+                font-size: 12px;
+                color: #090909;
+            }
+        }
+        .submit {
+            flex: 1;
+            background: #e32525;
+            color: #fff;
+            text-align: center;
+            line-height: 44px;
+        }
+    }
+}

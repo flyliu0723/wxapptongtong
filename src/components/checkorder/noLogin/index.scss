@@ -1,0 +1,56 @@
+.nologin {
+    line-height: 45px;
+    .tips {
+        background: #fddede;
+        padding: 0 15px;
+        display: flex;
+        .no-to-login-tip {
+            font-size: 14px;
+            color: #e32525;
+            flex: 3;
+        }
+        .to-login-btn {
+            border: none;
+            background: #e32525;
+            font-size: 12px;
+            text-align: center;
+            height: 24px;
+            line-height: 24px;
+            width: 64px;
+            color: #fff;
+            margin-top: 10px;
+            border-radius: 20px;
+        }
+    }
+    .receiver {
+        padding: 0 11px;
+        .tab {
+            height: 22px;
+            padding: 15px 0;
+            display: flex;
+            line-height: 22px;
+            border-bottom: solid 1px #eaeaea;
+            .name {
+                flex: 1;
+                font-size: 14px;
+                text-align: justify;
+            }
+            .input {
+                border: none;
+                outline: none;
+                flex: 3;
+                font-size: 14px;
+            }
+            .to {
+                width: 7.6px;
+                height: 14px;
+                margin-top: 3px;
+            }
+        }
+        .tips {
+            line-height: 52px;
+            color: #f23030;
+            font-size: 12px;
+        }
+    }
+}

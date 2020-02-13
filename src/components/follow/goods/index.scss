@@ -1,0 +1,105 @@
+.goods {
+    background: #fff;
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-bottom: 1px solid #f3f3f3;
+    padding: 10px 0;
+}
+.goods_img {
+    display: inline-block;
+    position: relative;
+    z-index: 0;
+}
+.goods_img .img {
+    display: inline-block;
+    width: 110px;
+    height: 110px;
+    margin-left: 10px;
+}
+.bn_check {
+    width: 15px;
+    height: 15px;
+    border: 1px solid #111;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    z-index: 100;
+}
+.goods_img .select {
+    background: url(//timgs-v1.tongtongmall.com/e0b9488f945147e9a587638d548ac470)
+        center center no-repeat;
+    background-size: 20px;
+    border: 1px solid transparent;
+}
+.goods_img .no-stock {
+    width: 110px;
+    height: 110px;
+    position: absolute;
+    left: 10px;
+    top: 0;
+    background: rgba(0, 0, 0, 0.16);
+}
+.goods_img .label {
+    background-size: 100% 100%;
+    position: absolute;
+    width: 72.5px;
+    height: 72.5px;
+    left: 28px;
+    bottom: 21px;
+    border: solid 1px #ffffff;
+    border-radius: 50%;
+    font-size: 17px;
+    color: #ffffff;
+    line-height: 72.5px;
+    text-align: center;
+    transform: rotate(45deg);
+    z-index: 99;
+}
+
+.goods_text {
+    position: absolute;
+    left: 130px;
+    top: 10px;
+    bottom: 12px;
+    right: 10px;
+}
+.goods_text .name {
+    line-height: 20px;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+    -webkit-line-clamp: 2;
+    word-wrap: break-word;
+    font-size: 14px;
+    color: #030303;
+    max-height: 40px;
+}
+.goods_text .profile {
+    display: inline-block;
+    line-height: 17px;
+    height: 17px;
+    overflow: hidden;
+    font-size: 12px;
+    color: #999;
+}
+.goods_text .price {
+    color: #f23030;
+    font-size: 12px;
+    position: absolute;
+    margin-bottom: 1px;
+    bottom: 16px;
+    left: 0;
+}
+.goods_text .money {
+    font-size: 18px;
+}
+.goods_text .sales {
+    font-size: 12px;
+    color: #999;
+    position: absolute;
+    bottom: 1px;
+    left: 0;
+}

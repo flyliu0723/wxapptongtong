@@ -1,0 +1,47 @@
+.brand {
+    padding: 20px 15px;
+    display: flex;
+    border-top: solid 10px #eaeaea;
+    .logo {
+        width: 60px;
+        height: 60px;
+        border: solid 1px #eaeaea;
+        margin-right: 10px;
+    }
+    .tab {
+        flex: 1;
+    }
+    .message {
+        .mess {
+            display: block;
+        }
+        .country {
+            font-size: 12px;
+            color: #222222;
+            padding: 12px 0 13px;
+            .country-img {
+                width: 21px;
+                height: 15px;
+                margin-left: 10px;
+                position: relative;
+                top: 3px;
+            }
+        }
+        .name {
+            font-size: 14px;
+            color: #222222;
+            font-weight: bold;
+        }
+    }
+    .to {
+        font-size: 12px;
+        color: #565758;
+        line-height: 60px;
+        text-align: right;
+        .to-img {
+            width: 7.5px;
+            height: 12.5px;
+            margin-left: 10px;
+        }
+    }
+}
