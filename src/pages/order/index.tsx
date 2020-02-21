@@ -11,29 +11,30 @@ export default class Page extends Component {
     state = {
         headerbar: [
             {
-                type: 1,
+                type: '1',
                 title: '全部'
             },
             {
-                type: 2,
+                type: '2',
                 title: '待付款'
             },
             {
-                type: 5,
+                type: '5',
                 title: '待发货'
             },
             {
-                type: 3,
+                type: '3',
                 title: '待收货'
             },
             {
-                type: 4,
+                type: '4',
                 title: '待评价'
             }
         ],
         data: [],
         status: 1,
-        page: 1
+        page: 1,
+        bnLoad: true
     }
 
     config: Config = {
@@ -41,17 +42,31 @@ export default class Page extends Component {
     }
 
     componentDidMount() {
-        this.getData(1, 1)
+        let type = this.$router.params.type ? this.$router.params.type : '1'
+        this.changeType(type)
     }
 
-    getData = (type, page) => {
-        http.get('order/myorderlist-ver2', {
-            orderstatus: type,
-            pagesize: 10,
-            curpage: page
-        }).then((d) => {
+    onReachBottom = () => {
+        if(this.state.data.length === (this.state.page * 10)) {
+            let pagenum = this.state.page + 1
             this.setState({
-                data: d.data.list
+                page: pagenum
+            },() => {
+                this.getData()
+            })
+        }
+    }
+
+    getData = () => {
+        http.get('order/myorderlist-ver2', {
+            orderstatus: this.state.status,
+            pagesize: 10,
+            curpage: this.state.page
+        }).then((d) => {
+            let list = this.state.data
+            this.setState({
+                data: this.state.page === 1 ? d.data.list : list.concat(d.data.list),
+                bnLoad: true
             })
         })
     }
@@ -59,10 +74,11 @@ export default class Page extends Component {
     changeType = (e) => {
         this.setState(
             {
-                status: e
+                status: e,
+                page: 1
             },
             () => {
-                this.getData(e, 1)
+                this.getData()
             }
         )
     }

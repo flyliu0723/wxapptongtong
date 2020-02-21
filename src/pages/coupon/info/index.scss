@@ -1,0 +1,129 @@
+.view {
+    min-height: 100vh;
+    background: #fff;
+    width: 100%;
+    position: relative;
+    color: #fff;
+    background: url(//timgs-v1.tongtongmall.com/12b9172c) no-repeat;
+    background-size: 100%;
+    .message {
+        width: calc(100% - 40px);
+        height: 170px;
+        padding-top: 23px;
+        margin: 0 20px;
+        position: relative;
+        .price {
+            position: absolute;
+            top: 24px;
+            left: 0;
+            width: 105px;
+            height: 93px;
+            text-align: center;
+            .num {
+                font-size: 48px;
+                margin-top: 13px;
+                height: 50px;
+                line-height: 50px;
+                .icon {
+                    font-size: 13px;
+                    margin-top: 40px;
+                }
+            }
+            .note {
+                font-size: 12px;
+                padding: 0 5px;
+                height: 22px;
+                overflow: hidden;
+                margin-top: 8px;
+            }
+        }
+    }
+    .detail {
+        position: relative;
+        margin-left: 125px;
+        text-align: left;
+        .name {
+            width: 188px;
+            font-size: 15px;
+            font-weight: bold;
+            line-height: 23px;
+            max-height: 46px;
+            overflow: hidden;
+        }
+        .type {
+            display: block;
+            margin: 5px 0 45px 0;
+            .type-con {
+                display: block;
+                float: left;
+                padding: 0 5px;
+                color: #090909;
+                font-size: 12px;
+                background: #FFC107;
+            }
+        }
+        .used {
+            position: absolute;
+            top: 46px;
+            right: 10px;
+            width: 77px;
+            height: 67px;
+        }
+        .btn {
+            font-size: 12px;
+            padding: 2px 20px;
+            color: #E32525;
+            border-radius: 13px;
+            height: 26px;
+            outline: none;
+            background: #fff;
+            border: none;
+            display: block;
+            float: left;
+            margin-top: 19px;
+            line-height: 26px;
+        }
+    }
+
+    .use-detail {
+        padding: 0 30px 30px;
+        margin-top: 46px;
+        .title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #090909;
+            margin-bottom: 28px;
+        }
+        .use {
+            overflow: hidden;
+            margin-bottom: 30px;
+            .img {
+                float: left;
+                width: 18px;
+                height: 18px;
+                margin: 2px 0 0 3px;
+            } 
+            .text {
+                float: left;
+                margin-left: 16px;
+                width: 265px;
+                line-height: 22px;
+                .headline {
+                    color: #090909;
+                    font-size: 15px;
+                    font-weight: bold;
+                }
+                .con {
+                    color: #646464;
+                    margin-top: 6px;
+                    font-size: 13px;
+                }
+            }
+              
+        }
+    }
+}
+.gray_bg {
+    background: url(//timgs-v1.tongtongmall.com/887f2538) no-repeat;
+    background-size: 100%;
+}

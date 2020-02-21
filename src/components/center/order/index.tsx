@@ -34,7 +34,7 @@ export default class Page extends Component<Props> {
                                 className='list'
                                 onClick={() => {
                                     Taro.navigateTo({
-                                        url: '/pages/order/index'
+                                        url: `/pages/order/index?type=${msg.link}`
                                     })
                                 }}
                             >

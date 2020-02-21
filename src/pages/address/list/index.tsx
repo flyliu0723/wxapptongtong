@@ -10,8 +10,13 @@ export default class Page extends Component {
         addressList: []
     }
 
+
     config: Config = {
         navigationBarTitleText: '收货地址'
+    }
+
+    componentDidShow() {
+        this.getData()
     }
 
     getData = () => {
@@ -20,10 +25,6 @@ export default class Page extends Component {
                 addressList: d.data.list
             })
         })
-    }
-
-    componentDidMount() {
-        this.getData()
     }
 
     render() {

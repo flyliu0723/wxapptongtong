@@ -28,11 +28,11 @@ export default class Address extends Component<Props> {
             <View className='address'>
                 {data.addrid === '' ? (
                     <Block>
-                        <View>请选择收货地址！</View>
+                        <View onClick={() => Taro.navigateTo({url: '/pages/address/list/index'})}>请选择收货地址！</View>
                     </Block>
                 ) : (
                     <Block>
-                        <View className='user'>
+                        <View className='user' onClick={() => Taro.navigateTo({url: '/pages/address/list/index'})}>
                             <Text className='name'>{data.name}</Text>
                             <Text className='phone'>
                                 {data.phone.replace(

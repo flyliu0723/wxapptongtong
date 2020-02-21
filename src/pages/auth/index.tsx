@@ -245,7 +245,7 @@ export default class Page extends Component {
             disabledPhoneSubmit: true
         })
         http.post('user/login', {
-            tk: 10,
+            tk: 2,
             loginname: this.state.phone,
             pwd: this.state.password,
             vercode: '',

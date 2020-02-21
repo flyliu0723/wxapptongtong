@@ -5,16 +5,21 @@ import './index.scss'
 
 import Goods from '../../components/follow/goods/index'
 import Bottom from '../../components/follow/bottom/index'
+import NoList from '../../components/follow/nolist/index'
 
 export default class Page extends Component {
     state: {
         type: boolean
         dataList: any
         checkList: any
+        page: number
+        total: number
     } = {
         type: true,
         dataList: [],
-        checkList: []
+        checkList: [],
+        page: 1,
+        total: 0
     }
 
     config: Config = {
@@ -24,7 +29,8 @@ export default class Page extends Component {
     // 编辑关注
     changeType = () => {
         this.setState({
-            type: !this.state.type
+            type: !this.state.type,
+            checkList: []
         })
     }
 
@@ -56,13 +62,42 @@ export default class Page extends Component {
 
     getData = () => {
         http.get('user/my-follow-products', {
-            curpage: 1,
+            curpage: this.state.page,
             pagesize: 10
         }).then((d) => {
+            let list = this.state.dataList
             this.setState({
-                dataList: d.data.list
+                dataList: this.state.page === 1 ? d.data.list : list.concat(d.data.list),
+                total: d.data.total
             })
         })
+    }
+
+    delGoods = () => {
+        let data = Object.assign([], this.state.dataList)
+        let dataList = data.filter( item => {
+            return this.state.checkList.every( val => {
+                return item.goodsid != val
+            })
+        })
+        this.setState({
+            dataList,
+            type: true,
+            checkList: []
+        })
+    }
+
+    onReachBottom = () => {
+        if(this.state.dataList.length === (this.state.page * 10)) {
+            setTimeout(() => {
+                let pagenum = this.state.page + 1
+                this.setState({
+                    page: pagenum
+                },() => {
+                    this.getData()
+                })
+            }, 1000)
+        }
     }
 
     empty = () => {
@@ -75,37 +110,45 @@ export default class Page extends Component {
         this.getData()
     }
 
+
+
     render() {
-        const { type, dataList, checkList } = this.state
+        const { type, dataList, checkList, total } = this.state
         return (
             <View className='view'>
-                <View className='total'>
-                    <Text>共{dataList.length}件商品</Text>
-                    <View onClick={() => this.changeType()} className='edit'>
-                        {type ? <Text>编辑</Text> : <Text>取消</Text>}
-                    </View>
-                </View>
+                {dataList.length > 0 ?
+                    <View>
+                        <View className='total'>
+                            <Text>共{total}件商品</Text>
+                            <View onClick={() => this.changeType()} className='edit'>
+                                {type ? <Text>编辑</Text> : <Text>取消</Text>}
+                            </View>
+                        </View>
 
-                {/* 商品列表 */}
-                {dataList.map((data, i) => (
-                    <Goods
-                        key={i}
-                        data={data}
-                        type={type}
-                        list={checkList}
-                        checkGoods={this.checkOne}
-                    />
-                ))}
+                        {/* 商品列表 */}
+                        {dataList.map((data, i) => (
+                            <Goods
+                                key={i}
+                                data={data}
+                                type={type}
+                                list={checkList}
+                                checkGoods={this.checkOne}
+                            />
+                        ))}
 
-                {!type && (
-                    <Bottom
-                        checkAll={this.checkAll}
-                        list={checkList}
-                        data={dataList}
-                        getdata={this.getData}
-                        empty={this.empty}
-                    />
-                )}
+                        {!type && (
+                            <Bottom
+                                checkAll={this.checkAll}
+                                list={checkList}
+                                data={dataList}
+                                getdata={this.getData}
+                                empty={this.empty}
+                                delgoods={this.delGoods}
+                            />
+                        )}
+                    </View>:
+                    <NoList />
+                }
             </View>
         )
     }

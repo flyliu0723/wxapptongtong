@@ -16,25 +16,25 @@ export default class Page extends Component {
                 name: '待付款',
                 img:
                     '//timgs-v1.tongtongmall.com/31e153667c4b4b59a38b4b88a363658d',
-                link: 'pages/order/index'
+                link: '2'
             },
             {
                 name: '待发货',
                 img:
                     '//timgs-v1.tongtongmall.com/023d5e62d6db4c7091224ffa37f02ac7',
-                link: 'pages/order/index'
+                link: '5'
             },
             {
                 name: '待收货',
                 img:
                     '//timgs-v1.tongtongmall.com/e8c9b246c5434a7a88219e14ef9c474c',
-                link: 'pages/order/index'
+                link: '3'
             },
             {
                 name: '待评价',
                 img:
                     '//timgs-v1.tongtongmall.com/fb45cdbe0d1448c5a0246804afb1d578',
-                link: 'pages/order/index'
+                link: '4'
             },
             {
                 name: '退款',
@@ -75,7 +75,8 @@ export default class Page extends Component {
         userCenter: {
             scores: '',
             couponnum: ''
-        }
+        },
+        followTotal: 0
     }
 
     config: Config = {
@@ -133,15 +134,24 @@ export default class Page extends Component {
                 userCenter: d.data
             })
         })
+
+        http.get('user/my-follow-products', {
+            curpage: 1,
+            pagesize: 10
+        }).then((d) => {
+            this.setState({
+                followTotal: d.data.total
+            })
+        })
     }
 
     render() {
-        const { menu, serve, userInfo, userCenter } = this.state
+        const { menu, serve, userInfo, userCenter, followTotal } = this.state
         return (
             <View className='view'>
                 <View className='bg-color'>
                     {/* 顶部信息 */}
-                    <User info={userInfo} center={userCenter} />
+                    <User info={userInfo} center={userCenter} follow={followTotal} />
 
                     {/* 我的订单 */}
                     <View className='order'>

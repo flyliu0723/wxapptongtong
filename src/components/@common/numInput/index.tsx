@@ -51,7 +51,7 @@ export default class Page extends Component<Props> {
         return num
     }
     render() {
-        let { min, max, small } = this.props
+        let { min = 1, max = 99, small } = this.props
         return (
             <View
                 className={small ? 'num small' : 'num'}

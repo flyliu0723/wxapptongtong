@@ -9,21 +9,22 @@ export default class Page extends Component {
     state = {
         imgs: [],
         before: [],
-        after: []
+        after: [],
+        goodsid: this.$router.params.goodsid 
     }
     config: Config = {
         navigationBarTitleText: '商品详情'
     }
     componentWillMount() {
         http.get('product/prodetail-img', {
-            goodsid: '7305a717-72b4-4dca-8311-c016aec17282'
+            goodsid: this.state.goodsid
         }).then((d) => {
             this.setState({
                 imgs: d.data
             })
         })
         http.get('product/prodetail-img-template', {
-            goodsid: '7305a717-72b4-4dca-8311-c016aec17282',
+            goodsid: this.state.goodsid,
             postion: 10,
             platform: 2
         }).then((d) => {
@@ -32,7 +33,7 @@ export default class Page extends Component {
             })
         })
         http.get('product/prodetail-img-template', {
-            goodsid: '7305a717-72b4-4dca-8311-c016aec17282',
+            goodsid: this.state.goodsid,
             postion: 20,
             platform: 2
         }).then((d) => {
@@ -45,7 +46,7 @@ export default class Page extends Component {
         let { before, imgs, after } = this.state
         return (
             <View className='view'>
-                <Header inTab='detail' />
+                <Header inTab='detail' goodsid={this.state.goodsid} />
 
                 <ScrollView className='imgs'>
                     {before.map((d: any) => {

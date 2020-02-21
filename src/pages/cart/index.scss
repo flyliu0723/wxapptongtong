@@ -1,5 +1,50 @@
 .view {
-    margin-top: 15px;
+    margin-top: 30px;
+    .no-login{
+        width: 345px;
+        padding: 0 15px;
+        line-height: 45px;
+        background: #FDDEDE;
+        color: #E32525;
+        .font{
+            font-size: 13px;
+            display: inline-block;
+        }
+        .action{
+            width: 64px;
+            height: 24px;
+            line-height: 24px;
+            float: right;
+            background: #E32525;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 12px;
+        }
+
+    }
+    .settle{
+        display: flex;
+        height: 30px;
+        line-height: 30px;
+        background: #ccc;
+        padding: 0 10px;
+        position: fixed;
+        top: 0;
+        width: 355px;
+        .num{
+            flex: 1;
+            font-size: 12px;
+            color: #999;
+        }
+        .btn{
+            flex: 1;
+            text-align: right;
+            font-size: 14px;
+            color: #333;
+        }
+    }
     .choice-btn {
         width: 16px;
         height: 16px;
@@ -70,6 +115,11 @@
                             }
                             .num {
                                 flex: 1;
+                                text-align: right;
+                                .del{
+                                    width: 16px;
+                                    height: 16px;
+                                }
                             }
                         }
                     }
@@ -139,6 +189,12 @@
         .sub {
             flex: 3;
             margin-left: 15px;
+            .all{
+                font-size: 12px;
+                color: #090909;
+                line-height: 45px;
+
+            }
             .sub-price {
                 font-size: 12px;
                 color: #090909;
@@ -160,5 +216,31 @@
             text-align: center;
             line-height: 44px;
         }
+    }
+    .no-cart{
+        width: 100%;
+        margin: 50px auto;
+        text-align: center;
+        .tip-img{
+            width: 91px;
+            height: 91px;
+            margin-top: 50px;
+        }
+        .tip-font{
+            font-size: 14px;
+            color: #646464;
+            margin-top: 20px;
+        }
+        .btn{
+            width: 225px;
+            height: 44px;
+            background: #E32525;
+            color: #fff;
+            border-radius: 22px;
+            line-height: 44px;
+            margin: 42px auto 0;
+            text-align: center;
+        }
+
     }
 }

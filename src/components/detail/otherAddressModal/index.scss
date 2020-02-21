@@ -1,0 +1,55 @@
+.others{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    background: rgba($color: #000, $alpha: 0.6);
+    z-index: 3;
+    .content {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 77.5%;
+        background: rgba($color: #fff, $alpha: 1);
+        .title {
+            width: 100%;
+            line-height: 53px;
+            text-align: center;
+            font-size: 14px;
+            color: #9a9a9a;
+            border-bottom: solid 1px #eaeaea;
+            .close {
+                position: absolute;
+                width: 15px;
+                height: 15px;
+                top: 15px;
+                right: 15px;
+            }
+        }
+        .lists{
+            margin: 0 15px;
+            height: 90%;
+            .selected{
+                line-height: 43px;
+                border-bottom: solid 1px #eaeaea;
+                font-size: 14px;
+                .tab{
+                    margin-right: 40px;
+                    display: inline-block;
+                }
+                .active{
+                    color: #F23030;
+                    border-bottom: solid 1px #F23030;
+                }
+            }
+            .options{
+                height: 90%;
+                .list{
+                    width: 100%;
+                    border-bottom: solid 1px #eaeaea;
+                    line-height: 43px;
+                }
+            }
+        }
+    }
+}

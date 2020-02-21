@@ -53,19 +53,27 @@ export default class Page extends Component<Props> {
             }
         )
     }
-
+    
     render() {
         const { data, type } = this.props
         const { checked } = this.state
 
         return (
-            <View className='goods'>
-                <View className='goods_img'>
+            <View 
+                className='goods'
+                onClick={() => {
+                    type ? Taro.navigateTo({
+                        url: `/pages/detail/index?goodsid=${data.goodsid}`
+                    }) : this.checkGood()
+                }}
+            >
+                <View 
+                    className='goods_img'
+                >
                     {/* 选择 */}
                     {!type && (
                         <View
                             className={checked ? 'bn_check select' : 'bn_check'}
-                            onClick={() => this.checkGood()}
                         />
                     )}
                     <Image className='img' src={data.goodsurl} />

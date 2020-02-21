@@ -1,8 +1,9 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Image, Text } from '@tarojs/components'
+import { View, Image, Text, Block } from '@tarojs/components'
 import http from '../../utils/http'
 import './index.scss'
 import NumberInput from '../../components/@common/numInput'
+import auth from '../../utils/auth'
 
 export default class Page extends Component {
     state: {
@@ -11,10 +12,14 @@ export default class Page extends Component {
         allData: any
         count: number
         allChecked: boolean
+        isSettle: boolean
+        loaded: boolean
     } = {
         cartData: [],
         count: 0,
         allChecked: true,
+        isSettle: false,
+        loaded: false,
         otherData: '',
         allData: ''
     }
@@ -22,12 +27,23 @@ export default class Page extends Component {
         navigationBarTitleText: '购物车'
     }
     componentWillMount() {
+        this.setState({
+            isSettle: false
+        })
+        this.prepareData()
+    }
+    componentDidShow() {
+        this.prepareData()
+
+    }
+    prepareData() {
         http.get('user/my-shopping-cart-ver2').then((d) => {
             this.formatData(d.data.list)
             this.setState({
                 otherData: {
                     coupon: d.data.coupon,
-                    total: d.data.total
+                    total: d.data.total,
+                    loaded: true
                 }
             })
         })
@@ -78,6 +94,23 @@ export default class Page extends Component {
             })
             this.formatData(d.data.list)
         })
+    }
+    getChecked(data) {
+        let goods: any = []
+        data.forEach((d) => {
+            d.data.forEach((g) => {
+                if(g.ischeck === '1'){
+                    goods.push({
+                        type: g.type,
+                        itemid: g.itemid,
+                        entryid: g.entryid,
+                        buycount: g.purchasenum,
+                        operatetype: '0'
+                    })
+                }
+            })
+        })
+        return goods
     }
     renderCicle(type) {
         const { allData } = this.state
@@ -148,9 +181,38 @@ export default class Page extends Component {
         return result
     }
     render() {
-        let { cartData, otherData } = this.state
+        let { cartData, otherData, allData, loaded } = this.state
         return (
             <View className='view'>
+                {
+                    !auth.loginStatus ? <View className='no-login'>
+                        <View className='font'>登陆后可保存和同步购物车中商品</View>
+                        <View className='action' onClick={() => {
+                            Taro.navigateTo({
+                                url: '/pages/auth/index'
+                            })
+                        }}>登录</View>
+                    </View> : ''
+
+                }
+                {
+                    cartData.length > 0
+                        ? <View className='settle'>
+                            <View className='num'>共{allData.length}件商品</View>
+                            <View className='btn' onClick={() => this.setState({isSettle: !this.state.isSettle})}>整理购物车</View>
+                        </View>
+                        : ''
+                }
+                {
+                    cartData.length === 0
+                        ? <View className='no-cart'>
+                            <Image src='//timgs-v1.tongtongmall.com/28c263bd' className='tip-img' />
+                            <View className='tip-font'>您的购物车空空如也</View>
+                            <View className='btn' 
+                                onClick={() => Taro.switchTab({url: '/pages/index/index'})}>去购物</View>
+                        </View>
+                        : ''
+                }
                 {cartData.map((store) => {
                     return (
                         <View className='store' key={store.addressid}>
@@ -224,10 +286,19 @@ export default class Page extends Component {
                                             <View className='goods-tab'>
                                                 <Image
                                                     className='goods-img'
-                                                    src={g.goodsurl}
+                                                    src={g.goodsurl} 
+                                                    onClick={() => {
+                                                        Taro.navigateTo({
+                                                            url: `/pages/detail/index?goodsid=${g.goodsid}`
+                                                        })
+                                                    }}
                                                 />
                                                 <View className='message'>
-                                                    <View className='title'>
+                                                    <View className='title' onClick={() => {
+                                                        Taro.navigateTo({
+                                                            url: `/pages/detail/index?goodsid=${g.goodsid}`
+                                                        })
+                                                    }}>
                                                         {g.goodsname}
                                                     </View>
                                                     <View className='other'>
@@ -235,34 +306,53 @@ export default class Page extends Component {
                                                             ￥{g.sellprice}
                                                         </View>
                                                         <View className='num'>
-                                                            <NumberInput
-                                                                right={true}
-                                                                min={1}
-                                                                max={99}
-                                                                value={
-                                                                    g.purchasenum
-                                                                }
-                                                                small={true}
-                                                                change={(num) =>
-                                                                    this.updateCart(
-                                                                        {
-                                                                            goods: [
-                                                                                {
-                                                                                    type:
-                                                                                        '10',
-                                                                                    itemid:
-                                                                                        g.itemid,
-                                                                                    entryid:
-                                                                                        g.entryid,
-                                                                                    buycount: num,
-                                                                                    operatetype:
-                                                                                        '1'
-                                                                                }
-                                                                            ]
+                                                            {
+                                                                this.state.isSettle
+                                                                    ? <Image 
+                                                                        src='//timgs-v1.tongtongmall.com/8b9c0822' 
+                                                                        className='del' 
+                                                                        onClick={() => {
+                                                                            this.updateCart({
+                                                                                goods:[{
+                                                                                    type: g.type,
+                                                                                    itemid: g.itemid,
+                                                                                    entryid: g.entryid,
+                                                                                    buycount: g.purchasenum,
+                                                                                    operatetype: '0'
+                                                                                }]
+                                                                            })
+                                                                        }}
+                                                                    />
+                                                                    : <NumberInput
+                                                                        right={false}
+                                                                        min={1}
+                                                                        max={99}
+                                                                        value={
+                                                                            g.purchasenum
                                                                         }
-                                                                    )
-                                                                }
-                                                            />
+                                                                        small={true}
+                                                                        change={(num) =>
+                                                                            this.updateCart(
+                                                                                {
+                                                                                    goods: [
+                                                                                        {
+                                                                                            type:
+                                                                                                '10',
+                                                                                            itemid:
+                                                                                                g.itemid,
+                                                                                            entryid:
+                                                                                                g.entryid,
+                                                                                            buycount: num,
+                                                                                            operatetype:
+                                                                                                '1'
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            )
+                                                                        }
+                                                                    />
+                                                            }
+                                                            
                                                         </View>
                                                     </View>
                                                 </View>
@@ -307,38 +397,79 @@ export default class Page extends Component {
                     )
                 })}
                 <View style={{ height: '50px' }}></View>
-                <View className='actions'>
-                    <View className='choice'>
-                        {this.renderCicle(this.isAllChecked(cartData))}
-                    </View>
-
-                    <View className='sub'>
-                        <View className='sub-price'>
-                            合 计：
-                            <Text className='font'>￥{otherData.total}</Text>
-                        </View>
-                        <View className='goods-price'>
-                            商品总额：{otherData.total}
-                        </View>
-                    </View>
-                    <View
-                        className='submit'
-                        onClick={() => {
-                            if (this.isAllNoChecked(cartData)) {
-                                Taro.navigateTo({
-                                    url: '/pages/checkorder/index'
-                                })
-                            } else {
-                                Taro.showToast({
-                                    title: '请选择商品',
-                                    icon: 'none'
-                                })
+                {
+                    cartData.length > 0
+                        ? <View className='actions'>
+                            <View className='choice'>
+                                {this.renderCicle(this.isAllChecked(cartData))}
+                            </View>
+        
+                            <View className='sub'>
+                                {
+                                    this.state.isSettle
+                                        ? <View className='all'>
+                                            全选
+                                        </View>
+                                        : <Block>
+                                            <View className='sub-price'>
+                                                合 计：
+                                                <Text className='font'>￥{otherData.total}</Text>
+                                            </View>
+                                            <View className='goods-price'>
+                                                商品总额：
+                                                {
+                                                    Number(otherData.coupon) !== 0
+                                                        ? '¥ ' + String(otherData.total) + ' - 立减 ¥ ' + otherData.coupon
+                                                        : otherData.total
+                                                }
+                                            </View>
+                                        </Block>
+                                }
+                                
+                            </View>
+                            {
+                                this.state.isSettle
+                                    ? <View
+                                        className='submit'
+                                        onClick={() => {
+                                            if (this.isAllNoChecked(cartData)) {
+                                                const {cartData} = this.state
+                                                this.updateCart({
+                                                    goods: this.getChecked(cartData)
+                                                })
+                                            } else {
+                                                Taro.showToast({
+                                                    title: '请选择商品',
+                                                    icon: 'none'
+                                                })
+                                            }
+                                        }}
+                                    >
+                                        移除
+                                    </View>
+                                    : <View
+                                        className='submit'
+                                        onClick={() => {
+                                            if (this.isAllNoChecked(cartData)) {
+                                                Taro.navigateTo({
+                                                    url: '/pages/checkorder/index'
+                                                })
+                                            } else {
+                                                Taro.showToast({
+                                                    title: '请选择商品',
+                                                    icon: 'none'
+                                                })
+                                            }
+                                        }}
+                                    >
+                                        去结算（{this.state.count}）
+                                    </View>
                             }
-                        }}
-                    >
-                        去结算（{this.state.count}）
-                    </View>
-                </View>
+                            
+                        </View>
+                        : ''
+                }
+                
             </View>
         )
     }

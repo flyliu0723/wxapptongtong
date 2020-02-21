@@ -1,0 +1,153 @@
+.is-con{
+    position: relative;
+    width: 100%;
+    height: 142px;
+    margin-top: 10px;
+    .item-con {
+        width: calc(100% - 10px);
+        height: 142px;
+        background: url(//timgs-v1.tongtongmall.com/5cb2ef68) center center no-repeat;
+        background-size: 100% 100%;
+        color: #969696;
+        position: absolute;
+        top: 0;
+        left: 10px;
+        transition: left 0.5s;
+        z-index: 20;
+        .contop {
+            height: 110px;
+            .contop-left {
+                float: left;
+                width: 105px;
+                height: 100%;
+                text-align: center;
+                .price {
+                    margin: 20px 0 7px 0;
+                    height: 50px;
+                    font-weight: bold;
+                    font-size: 14px;
+                    .money {
+                        font-size: 50px;
+                        display: inline-block;
+                        height: 50px;
+                        line-height: 50px;
+                    }
+                }
+                .cill {
+                    display: inline-block;
+                    font-size: 12px;
+                }
+            }
+            .contop-right {
+                float: left;
+                width: 245px;
+                height: 100%;
+                position: relative;
+                .name {
+                    margin: 23px 0 0 15px;
+                    .type-text {
+                        float: left;
+                        background: #999;
+                        font-size: 12px;
+                        color: #090909;
+                        padding: 3px 5px;
+                        border-radius: 2px;
+                    }
+                    .name-text {
+                        width: 162px;
+                        overflow: hidden;
+                        display: inline-block;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        padding-left: 9px;
+                        font-weight: bold;
+                        line-height: 20px;
+                        height: 20px;
+                        font-size: 14px;
+                    }
+                }
+                .time {
+                    margin: 8px 0;
+                    font-size: 12px;
+                    padding-left: 15px;
+                }
+                .use-btn {
+                    font-size: 12px;
+                    padding-left: 15px;
+                    .btn {
+                        display: inline-block;
+                        width: 62.5px;
+                        text-align: center;
+                        padding: 0;
+                        background: #E32525;
+                        color: #fff;
+                        border-radius: 100px;
+                        font-size: 10px;
+                        position: absolute;
+                        top: 80px;
+                        border: none;
+                    }
+                }
+                .con-img {
+                    position: absolute;
+                    top: 38px;
+                    right: 30px;
+                    width: 77px;
+                    height: 77px;
+                }
+            }
+        }
+        
+        .conbottom {
+            height: 35.5px;
+            margin: 0 13px 0 12px;
+            font-size: 12px;
+            text-align: left;
+            line-height: 32px;
+            .more {
+                width: 7.6px;
+                height: 14px;
+                float: right;
+                margin-top: 9px;
+            }
+        }
+    }
+    .item-red {
+        background: url(http://timgs-v1.tongtongmall.com/76ab546c) center center no-repeat;
+        background-size: 100% 100%;
+        .contop {
+            .contop-right .name {
+                .type-text {
+                    background: #ffb109;
+                    color: #090909;
+                }
+                .name-text {
+                    color: #090909;
+                }
+            }
+        }
+        .price {
+            color: #f1312f;
+        }
+    }
+    .del {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 141px;
+        width: 75px;
+        color: #fff;
+        background: transparent;
+        line-height: 142px;
+        font-size: 14px;
+        z-index: 10;
+        text-align: center;
+    }
+    .del-red {
+        background: #f1312f;
+    }
+
+    .del-show {
+        left: -65px;
+    }
+}

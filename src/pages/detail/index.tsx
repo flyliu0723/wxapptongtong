@@ -5,9 +5,11 @@ import {
     Label,
     Image,
     Swiper,
-    SwiperItem
+    SwiperItem,
+    Block
 } from '@tarojs/components'
 import http from '../../utils/http'
+import auth from '../../utils/auth'
 import './index.scss'
 import { swiper } from '../../utils/config'
 import Header from '../../components/detail/header'
@@ -20,6 +22,8 @@ import PromotionModal from '../../components/detail/promotionModal'
 import OptionModal from '../../components/detail/optionModal'
 import AddressModal from '../../components/detail/addressModal'
 import ServiceModal from '../../components/detail/serviceModal'
+import OtherAddressModal from '../../components/detail/otherAddressModal'
+import QuickNav from '../../components/@common/quick-nav'
 
 export default class Page extends Component {
     state: {
@@ -33,10 +37,13 @@ export default class Page extends Component {
         showOptionModal: boolean
         showAddressModal: boolean
         showServiceModal: boolean
+        showOtherAddressModal: boolean
         addressList: any
         recommendGoods: any
         inGoodsstand: any
         follow: boolean
+        otherAddressList: any
+        cartNum: number
     } = {
         imgs: [],
         goodsinfo: '',
@@ -50,16 +57,20 @@ export default class Page extends Component {
         showOptionModal: false,
         showAddressModal: false,
         showServiceModal: false,
+        showOtherAddressModal: false,
         addressList: [],
         recommendGoods: [],
         inGoodsstand: [],
-        follow: false
+        follow: false,
+        otherAddressList: {},
+        cartNum: 0
     }
     config: Config = {
         navigationBarTitleText: '商品详情'
     }
     componentWillMount() {
         this.prepareData()
+        this.updateCartNum()
     }
     prepareData() {
         http.get('product/product-info-ver2', {
@@ -71,7 +82,7 @@ export default class Page extends Component {
                     imgs: d.data.goodsurl
                 },
                 () => {
-                    this.getDistributioninfo()
+                    auth.loginStatus && this.getDistributioninfo()
                     this.formatGoodsStand()
                 }
             )
@@ -97,6 +108,24 @@ export default class Page extends Component {
                 recommendGoods: d.data.list
             })
         })
+        
+    }
+    updateCartNum() {
+         http.get('user/shoppingcart-count')
+            .then(d => {
+                this.setState({
+                    cartNum: Number(d.data.count)
+                })
+            })
+    }
+    showOtherAddress() {
+        http.get('public/get-addr-list')
+            .then(d => {
+                this.setState({
+                    otherAddressList: d.data,
+                    showOtherAddressModal: true
+                })
+            })
     }
     getDistributioninfo() {
         let distributioninfo = [
@@ -114,20 +143,23 @@ export default class Page extends Component {
                     distributioninfo.forEach((dis) => {
                         param[dis] = a[dis]
                     })
-                    http.post('product/distributioninfo', {
-                        ...param,
-                        goodsid: this.state.goodsinfo.productid
-                    }).then((d) => {
-                        this.setState({
-                            distribution: d.data
-                        })
-                    })
+                    this.distributioninfo(param)
                 }
             })
         })
     }
+    distributioninfo(param) {
+        console.log(param)
+        http.post('product/distributioninfo', {
+            ...param,
+            goodsid: this.state.goodsinfo.productid
+        }).then((d) => {
+            this.setState({
+                distribution: d.data
+            })
+        })
+    }
     formatGoodsStand() {
-        console.log(666)
         let goodsinfo = this.state.goodsinfo,
             inGoodsstand,
             follow
@@ -148,11 +180,12 @@ export default class Page extends Component {
             distribution,
             addressList,
             recommendGoods,
-            inGoodsstand
+            inGoodsstand,
+            goodsid
         } = this.state
         return (
             <View className='view'>
-                <Header inTab='goods' />
+                <Header inTab='goods' goodsid={goodsid} goodstradestate={goodsinfo.goodstradestate}/>
                 <View className='slide'>
                     <Swiper
                         className='slide-img'
@@ -172,73 +205,116 @@ export default class Page extends Component {
                             )
                         })}
                     </Swiper>
+                    
                 </View>
+                {
+                    inGoodsstand.goodsstate === '2'
+                        ? <View className='out-tip'>
+                            商品已下架，暂时为您推荐类似商品
+                        </View>
+                        : ''
+                }
 
-                <View className='message'>
-                    <Text className='price'>
-                        <Text>￥</Text>
-                        {price.pricevalue}
-                    </Text>
-                    <Text className='name'>{goodsinfo.goodsname}</Text>
-                    <Text className='desc'>{goodsinfo.goodsdesc}</Text>
-                </View>
-                <Promotion
-                    data={promotion}
-                    onShow={() => this.setState({ showPromotionModal: true })}
-                />
-                <View
-                    className='tab'
-                    onClick={() => {
-                        this.setState({ showOptionModal: true })
-                    }}
-                >
-                    <Text className='name'>已选</Text>
-                    <View className='list'>{goodsinfo.goodsname}</View>
-                    <Image src='//timgs-v1.tongtongmall.com/ef40daf1' />
-                </View>
-                <Delivery
-                    data={distribution}
-                    show={() => this.setState({ showAddressModal: true })}
-                    showService={() =>
-                        this.setState({ showServiceModal: true })
-                    }
-                />
-                <Brand data={goodsinfo.goodsbrand} />
-                <RecommendGoods data={recommendGoods} />
-                <View
-                    className='go-detail'
-                    onClick={() =>
-                        Taro.navigateTo({
-                            url: '/pages/detail/detail/index'
-                        })
-                    }
-                >
-                    图文详情
-                </View>
-                <Bottom
-                    followed={this.state.follow}
-                    addcart={() => this.setState({ showOptionModal: true })}
-                    buy={() => {
-                        this.setState({ showOptionModal: true })
-                    }}
-                    follow={() => {
-                        let url = 'user/my-follow-products-add',
-                            params: any = {
-                                goods: [this.state.goodsid]
+                {
+                    inGoodsstand.goodsstate === '1'
+                        ? <Block>
+                            <View className='message'>
+                            <Text className='price'>
+                                <Text>￥</Text>
+                                {price.pricevalue}
+                            </Text>
+                            <Text className='name'>{goodsinfo.goodsname}</Text>
+                            <Text className='desc'>{goodsinfo.goodsdesc}</Text>
+                        </View>
+                        <Promotion
+                            data={promotion}
+                            onShow={() => this.setState({ showPromotionModal: true })}
+                        />
+                        <View
+                            className='tab'
+                            onClick={() => {
+                                this.setState({ showOptionModal: true })
+                            }}
+                        >
+                            <Text className='name'>已选</Text>
+                            <View className='list'>{goodsinfo.goodsname}</View>
+                            <Image src='//timgs-v1.tongtongmall.com/ef40daf1' />
+                        </View>
+                        <Delivery
+                            data={distribution}
+                            show={() => this.setState({ showAddressModal: true })}
+                            showService={() =>
+                                this.setState({ showServiceModal: true })
                             }
-                        if (this.state.follow) {
-                            url = 'user/my-follow-products-del'
-                            params = {
-                                goodsids: [this.state.goodsid]
+                        />
+                        <Brand data={goodsinfo.goodsbrand} />
+                        <RecommendGoods data={recommendGoods} />
+                        <View
+                            className='go-detail'
+                            onClick={() =>
+                                Taro.navigateTo({
+                                    url: '/pages/detail/detail/index?goodsid=' + goodsid
+                                })
                             }
-                        }
-                        http.post(url, params).then((d) => {
-                            this.setState({
-                                follow: !this.state.follow
-                            })
-                        })
-                    }}
-                />
+                        >
+                            图文详情
+                        </View>
+                        <Bottom
+                            cartNum={this.state.cartNum}
+                            followed={this.state.follow}
+                            addcart={() => {
+                                if(false){
+                                    this.setState({ showOptionModal: true })
+                                }else {
+                                    if(inGoodsstand.stock === '0'){
+                                        Taro.showToast({
+                                            title: `库存不足`,
+                                            icon: 'none'
+                                        })
+                                        return
+                                    }
+                                    http.post('user/shopping-cart-add-ver2', {
+                                        goods: [
+                                            {
+                                                itemid: goodsid,
+                                                type: 10,
+                                                buycount: 1
+                                            }
+                                        ]
+                                    }).then((d) => {
+                                        Taro.showToast({
+                                            title: '成功加入购物车',
+                                            icon: 'none'
+                                        })
+                                        this.updateCartNum()
+                                    })
+                                }
+                            }}
+                            buy={() => {
+                                this.setState({ showOptionModal: true })
+                            }}
+                            follow={() => {
+                                let url = 'user/my-follow-products-add',
+                                    params: any = {
+                                        goods: [goodsid]
+                                    }
+                                if (this.state.follow) {
+                                    url = 'user/my-follow-products-del'
+                                    params = {
+                                        goodsids: [goodsid]
+                                    }
+                                }
+                                http.post(url, params).then((d) => {
+                                    this.setState({
+                                        follow: !this.state.follow
+                                    })
+                                })
+                            }}
+                        />
+                        </Block>
+                        : <RecommendGoods data={recommendGoods} />
+                }
+                
 
                 {/* 弹窗类 */}
                 {this.state.showPromotionModal ? (
@@ -273,6 +349,26 @@ export default class Page extends Component {
                     <AddressModal
                         data={addressList}
                         hide={() => this.setState({ showAddressModal: false })}
+                        showOtherAddress={() => {
+                            http.get('public/get-addr-list')
+                                .then(d => {
+                                    this.setState({
+                                        otherAddressList: d.data,
+                                        showOtherAddressModal: true,
+                                        showAddressModal: false
+                                    })
+                                })
+                        }}
+                        changeAddress={(add) => {
+                           this.distributioninfo({
+                               addr: add.addr,
+                               addrid: add.addrid,
+                               cityname: add.cityname,
+                               countyname: add.countyname,
+                               provname: add.provname
+                           }) 
+                           this.setState({ showAddressModal: false })
+                        }}
                     />
                 ) : (
                     ''
@@ -285,6 +381,16 @@ export default class Page extends Component {
                 ) : (
                     ''
                 )}
+                {
+                    this.state.showOtherAddressModal ? 
+                        <OtherAddressModal 
+                            data={this.state.otherAddressList}
+                            hide={() => this.setState({showOtherAddressModal: false})}
+                            selected={() => {}}
+                        />
+                        : ''
+                }
+                <QuickNav />
             </View>
         )
     }

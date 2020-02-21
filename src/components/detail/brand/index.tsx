@@ -30,7 +30,7 @@ export default class Brand extends Component<Props> {
                     className='to tab'
                     onClick={() =>
                         Taro.navigateTo({
-                            url: ''
+                            url: `/pages/list/index?brandid=${data.brandid}`
                         })
                     }
                 >

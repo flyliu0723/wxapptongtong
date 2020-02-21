@@ -7,6 +7,7 @@ interface Props {
     buy: any
     follow: any
     followed: boolean
+    cartNum: number
 }
 export default class Bottom extends Component<Props> {
     constructor(props) {
@@ -35,6 +36,11 @@ export default class Bottom extends Component<Props> {
                         src='//timgs.tongtongmall.com/67a5d9'
                     />
                     <Text className='font'>购物车</Text>
+                    {
+                        this.props.cartNum > 0 ? <View className='cart-num'>
+                            {this.props.cartNum > 99 ? '99+' : this.props.cartNum}
+                        </View> : ''
+                    }
                 </View>
                 <View className='option' onClick={() => this.props.follow()}>
                     <Image

@@ -1,4 +1,4 @@
-import Taro, { Component, Config } from '@tarojs/taro'
+import Taro, { Component, Config, getCurrentPages } from '@tarojs/taro'
 import { View, Button, Input } from '@tarojs/components'
 import './index.scss'
 import http from '../../../utils/http'
@@ -48,12 +48,18 @@ export default class Page extends Component {
         if (this.timer !== null) {
             return
         }
-        if (!/1{1}\d{10}/.test(this.state.phone)) {
+        if (!this.state.phone) {
+            return Taro.showToast({
+                title: '请填写手机号',
+                icon: 'none'
+            })
+        } else if (!/1{1}\d{10}/.test(this.state.phone)) {
             return Taro.showToast({
                 title: '手机号输入错误',
                 icon: 'none'
             })
         }
+
         http.post('user/send-mobile-vcode', {
             phonenum: this.state.phone,
             type: 7
@@ -70,7 +76,7 @@ export default class Page extends Component {
         this.timer = setInterval(() => {
             n--
             if (n <= 0) {
-                window.clearInterval(this.timer)
+                clearInterval(this.timer)
                 this.setState({
                     codeButtonText: '重新发送'
                 })
@@ -84,13 +90,24 @@ export default class Page extends Component {
     }
 
     onSubmit = () => {
-        if (!/1{1}\d{10}/.test(this.state.phone)) {
+        if (!this.state.phone) {
+            return Taro.showToast({
+                title: '请填写手机号',
+                icon: 'none'
+            })
+        } else if (!/1{1}\d{10}/.test(this.state.phone)) {
             return Taro.showToast({
                 title: '手机号输入错误',
                 icon: 'none'
             })
         }
-        if (!/\d{6}/.test(this.state.code)) {
+
+        if (!this.state.code) {
+            return Taro.showToast({
+                title: '请填写验证码',
+                icon: 'none'
+            })
+        } else if (!/\d{6}/.test(this.state.code)) {
             return Taro.showToast({
                 title: '验证码输入错误',
                 icon: 'none'
@@ -111,6 +128,13 @@ export default class Page extends Component {
         }).then(() => {
             let eventChannel = this.$scope.getOpenerEventChannel()
             eventChannel.emit('onChangePhoneSuccess', {})
+
+            let pages = getCurrentPages()
+            if (pages.length >1) {
+                let prevPage = pages[pages.length- 2]
+                prevPage.onShow()
+            }
+            Taro.navigateBack()
         })
     }
 }

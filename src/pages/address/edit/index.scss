@@ -45,15 +45,17 @@
     }
     .submit {
         position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
+        left: 50%;
+        bottom: 50px;
+        width: 150px;
+        border-radius: 50px;
         height: 40px;
         line-height: 40px;
         border: none;
         background: #f23030;
         color: #fff;
         font-size: 14px;
+        margin-left: -75px;
     }
     .error {
         color: #f23030;

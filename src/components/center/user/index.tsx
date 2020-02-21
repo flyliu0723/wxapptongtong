@@ -6,6 +6,7 @@ import './index.scss'
 interface Props {
     info: any
     center: any
+    follow: number
 }
 
 export default class Page extends Component<Props> {
@@ -16,7 +17,7 @@ export default class Page extends Component<Props> {
 
     render() {
         const { nopicture } = this.state
-        const { info, center } = this.props
+        const { info, center, follow } = this.props
         return (
             <View className='message'>
                 {auth.loginStatus ? (
@@ -50,10 +51,17 @@ export default class Page extends Component<Props> {
                             })
                         }}
                     >
-                        <Text className='info_txt'>38</Text>
+                        <Text className='info_txt'>{follow}</Text>
                         <Text className='info_txt'>关注</Text>
                     </View>
-                    <View className='info'>
+                    <View 
+                        className='info'
+                        onClick={() => {
+                            Taro.navigateTo({
+                                url: '/pages/coupon/index/index'
+                            })
+                        }}
+                    >
                         {auth.loginStatus ? (
                             <Text className='info_txt'>{center.couponnum}</Text>
                         ) : (

@@ -1,5 +1,6 @@
-import Taro, { Component, Config } from '@tarojs/taro'
+import Taro, { Component, Config, getCurrentPages } from '@tarojs/taro'
 import { View, Text, Image, Input, Button, Form, Picker } from '@tarojs/components'
+import http from '../../../utils/http'
 import './index.scss'
 
 export default class Page extends Component {
@@ -17,10 +18,33 @@ export default class Page extends Component {
     }
 
     config: Config = {
-        navigationBarTitleText: '编辑收货地址'
+        navigationBarTitleText: '加载中...'
     }
 
-    onTimeChange = e => {
+    componentDidMount() {
+        Taro.setNavigationBarTitle({
+            title: this.$router.params.id ? '编辑收货地址' : '新建收货地址'
+        })
+        if(this.$router.params.id) {
+            http.get('user/my-receipt-ads', {
+                addrid: this.$router.params.id
+            }).then(d =>{
+                let data = d.data.list[0]
+                this.setState({
+                    name: data.name,
+                    phone: data.phone,
+                    addr: data.addr,
+                    idcard: data.idcard,
+                    selector: [data.provname, data.cityname, data.countyname],
+                    provid: data.provid,
+                    cityid: data.cityid,
+                    countyid: data.countyid
+                })
+            })
+        }
+    }
+
+    onCityChange = e => {
         this.setState({
             selector: e.detail.value,
             provid: e.detail.code[0],
@@ -40,7 +64,7 @@ export default class Page extends Component {
                 tipsShow: true,
                 tipsText: '请输入手机号'
             })
-        } else if (!/1{1}\d{10}/.test(this.state.phone)) {
+        } else if (this.state.phone && !(/^[1]([3-9])[0-9]{9}$/.test(this.state.phone))) {
             this.setState({
                 tipsShow: true,
                 tipsText: '请输入正确的手机号'
@@ -59,6 +83,11 @@ export default class Page extends Component {
                 tipsShow: true,
                 tipsText: '请输入详细地址'
             })
+        } else if (this.state.idcard && !/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/.test(this.state.idcard)) {
+            this.setState({
+                tipsShow: true,
+                tipsText: '请输入正确身份证号'
+            })
         } else {
             let data = {
                 name: this.state.name,
@@ -68,15 +97,32 @@ export default class Page extends Component {
                 countyid: this.state.countyid,
                 addr: this.state.addr,
                 idcard: this.state.idcard,
-                isdefault: 1
+                isdefault: 1,
+                addrid: this.$router.params.id ? this.$router.params.id : ''
             }
 
-            console.log(data)
+            let url
+
+            if(this.$router.params.id) {
+                url = 'user/receipt-ads-add'
+            } else {
+                delete data.addrid
+                url = 'user/receipt-ads-edit'
+            }
+
+            http.post(url, data).then(d => {
+                let pages = getCurrentPages()
+                if (pages.length >1) {
+                    let prevPage = pages[pages.length- 2]
+                    prevPage.onShow()
+                }
+                Taro.navigateBack()
+            })
         }
     }
 
     render() {
-        const { tipsShow ,tipsText } = this.state
+        const { tipsShow ,tipsText, name, phone, addr, idcard, selector } = this.state
         return (
             <View className='view'>
                 <Form className='address'>
@@ -85,6 +131,7 @@ export default class Page extends Component {
                         <Input
                             className='input'
                             placeholder='收货人姓名'
+                            value={name}
                             onInput={(e) => {
                                 this.setState({
                                     name: e.detail.value
@@ -97,6 +144,7 @@ export default class Page extends Component {
                         <Input
                             className='input'
                             placeholder='请输入您的手机号'
+                            value={phone}
                             onInput={(e) => {
                                 this.setState({
                                     phone: e.detail.value
@@ -106,9 +154,9 @@ export default class Page extends Component {
                     </View>
                     <View className='tab'>
                         <Text className='name'>所在地区： </Text>
-                        <Picker className='picker' mode='region' onChange={this.onTimeChange} value={this.state.selector}>
+                        <Picker className='picker' mode='region' onChange={this.onCityChange} value={selector}>
                             <View className='check-city'>
-                                {this.state.selector[0]}{this.state.selector[1]}{this.state.selector[2]}
+                                {selector[0]}{selector[1]}{selector[2]}
                                 <Image
                                     className='to'
                                     src='//m.tongtongmall.com/style/img/gads1.png'
@@ -122,6 +170,7 @@ export default class Page extends Component {
                         <Input
                             className='input'
                             placeholder='收货人详细地址'
+                            value={addr}
                             onInput={(e) => {
                                 this.setState({
                                     addr: e.detail.value
@@ -134,6 +183,7 @@ export default class Page extends Component {
                         <Input
                             className='input'
                             placeholder='您的身份证号码（选填）'
+                            value={idcard}
                             onInput={(e) => {
                                 this.setState({
                                     idcard: e.detail.value

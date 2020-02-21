@@ -11,13 +11,15 @@ export default class Page extends Component {
     }
 
     state = {
-        phone: ''
+        phone: '',
+        imgurl: ''
     }
 
-    componentDidMount() {
+    componentDidShow() {
         http.get('user/user-info').then((data) => {
             this.setState({
-                phone: data.data.phone || '绑定手机号'
+                phone: data.data.phone || '绑定手机号',
+                imgurl: data.data.headimg || '//timgs-v1.tongtongmall.com/4e448fea'
             })
         })
     }
@@ -46,7 +48,7 @@ export default class Page extends Component {
                 <View className='top'>
                     <View className='left'>头像</View>
                     <Image
-                        src='https://timgs-v1.tongtongmall.com/4e448fea'
+                        src={this.state.imgurl}
                         className='head'
                     />
                 </View>

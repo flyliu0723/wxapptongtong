@@ -9,6 +9,7 @@ interface Props {
     data: any
     getdata: any
     empty: any
+    delgoods: any
 }
 
 export default class Page extends Component<Props> {
@@ -39,7 +40,7 @@ export default class Page extends Component<Props> {
             goodsids: check ? [] : this.props.list,
             type: check ? 2 : 1
         }).then((d) => {
-            this.props.getdata()
+            check ? this.props.getdata() : this.props.delgoods()
             this.props.empty()
         })
     }

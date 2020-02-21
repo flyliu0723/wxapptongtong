@@ -10,39 +10,179 @@ export default class Page extends Component<Props> {
     state = {}
 
     // 状态显示
-    statusShow = (e) => {
-        switch (e) {
+    orderList = (val, type) => {
+        switch (val.orderstatus) {
             case '0':
-                return '订单审核中'
+                if(type == 'orderStatus'){
+                    return val = '订单审核中'
+                }else if(type == 'orderBindContent'){
+                    return val = '查看订单'
+                }else if(type == 'orderBind'){
+                    // 查看订单
+                    // this.$router.push({name: 'user-orders-info', query: {orderid: val.ordersettlementid}})
+                }
                 break
             case '10':
-                return '等待付款'
+                if(type == 'orderStatus'){
+                    return val = '等待付款'
+                }else if(type == 'orderBindContent'){
+                    return val.predictobj.status == 20 ? val = '支付尾款' : val = '立即支付'
+                }else if(type == 'orderBind'){
+                    // 立即支付
+                    // this.$router.push({name: 'settle', query: {orderid: val.ordersettlementid}})
+                }
                 break
             case '13':
-                return '支付确认中'
+                if(type == 'orderStatus'){
+                    return val = '支付确认中'
+                }else if(type == 'orderBindContent'){
+                    return val = '查看订单'
+                }else if(type == 'orderBind'){
+                    // 查看订单
+                    // this.$router.push({name: 'user-orders-info', query: {orderid: val.ordersettlementid}})
+                }
                 break
             case '14':
-                return '支付失败'
+                if(type == 'orderStatus'){
+                    return val = '支付失败'
+                }else if(type == 'orderBindContent'){
+                    return val = '立即支付'
+                }else if(type == 'orderBind'){
+                    // 立即支付
+                    // this.$router.push({name: 'settle', query: {orderid: val.ordersettlementid}})
+                }
                 break
             case '20':
-                return '已付款'
+                if(type == 'orderStatus'){
+                    return val = '已付款'
+                }else if(type == 'orderBindContent'){
+                    if(val.needidcard == 0){
+                        if(val.ispick == 0){
+                            val = '提醒发货'
+                        }else{
+                            val = ''
+                        }
+                    }else if(val.needidcard == 1){
+                        val = '补充身份证'
+                    }
+                    return val
+                }else if(type == 'orderBind'){
+                    if(val.needidcard == 0){
+                        // 提醒发货
+                        // this.remindSend(val)
+                    }else if(val.needidcard == 1){
+                        // 补充身份证
+                        // this.$router.push({name: 'user-account-idcard', query: {orderid: val.ordersettlementid}})
+                    }
+                }
                 break
             case '30':
-                return '已付款'
+                if(type == 'orderStatus'){
+                    return val = '已付款'
+                }else if(type == 'orderBindContent'){
+                    if(val.needidcard == 1){
+                        val = '补充身份证'
+                    }else if(val.needidcard == 0 && val.ispick == '0'){
+                        val = '提醒发货'
+                    }else if(val.needidcard == 0 && val.ispick == '1'){
+                        val = ''
+                    }
+                    return val
+                }else if(type == 'orderBind'){
+                    if(val.needidcard == 1){
+                        // 补充身份证
+                        // this.$router.push({name: 'user-account-idcard', query: {orderid: val.ordersettlementid}})
+                    }else if(val.needidcard == 0 && val.ispick == '0'){
+                        //提醒发货
+                        // this.remindSend(val)
+                    }
+                }
                 break
             case '40':
-                return '已发货'
+                if(type == 'orderStatus'){
+                    return val = '已发货'
+                }else if(type == 'orderBindContent'){
+                    return val = '确认收货'
+                }else if(type == 'orderBind'){
+                    // 确认收货
+                    // this.confirmContent = '请确定您已收到商品'
+                    // this.order.id = val.ordersettlementid
+                    // this.order.type = 'receipt'
+                    // this.bnAffirmBounced = true
+                }
                 break
             case '45':
-                return '待提货'
+                if(type == 'orderStatus'){
+                    return val = '待提货'
+                }else if(type == 'orderBindContent'){
+                    return val = '确认收货'
+                }else if(type == 'orderBind'){
+                    // 确认收货
+                    // this.confirmContent = '请确定您已收到商品'
+                    // this.order.id = val.ordersettlementid
+                    // this.order.type = 'receipt'
+                    // this.bnAffirmBounced = true
+                }
                 break
+                // 订单状态50
             case '50':
-                return '交易关闭'
+                if(type == 'orderStatus'){
+                    return val = '交易关闭'
+                }else if(type == 'orderBindContent'){
+                    return val = '删除订单'
+                }else if(type == 'orderBind'){
+                    // 删除订单
+                    // this.confirmContent = '确定要删除订单？'
+                    // this.order.id = val.ordersettlementid
+                    // this.order.type = 'delete'
+                    // this.bnAffirmBounced = true
+                }
                 break
+                // 订单状态60
             case '60':
-                return '已完成'
+                if(type == 'orderStatus'){
+                    return val = '已完成'
+                }else if(type == 'orderBindContent'){
+                    var bnEvaluate = false
+                    for (var i = 0; i < val.goods.length; i++) {
+                        if(val.goods[i].commentstatus == 0){
+                            bnEvaluate = true
+                        }
+                    }
+                    if (val.ordertype == 50) {
+                        val = ''
+                    } else {
+                        if(bnEvaluate){
+                            val = '评价'
+                        }else {
+                            val = '再次购买'
+                        }
+                    }
+                    
+                    return val
+                }else if(type == 'orderBind'){
+                    var bnEvaluate = false
+                    // 评价或者再次购买
+                    for (var i = 0; i < val.goods.length; i++) {
+                        if(val.goods[i].commentstatus == 0){
+                            bnEvaluate = true
+                        }
+                    }
+                    if(bnEvaluate){
+                        // 评价
+                        // this.$router.push({name: 'user-orders-evaluate', query: {orderid: val.ordersettlementid, orderidshow: val.orderidshow}})
+                    }else {
+                        // this.$store.dispatch('user/reBuyOrder', {ordersettlementid: val.ordersettlementid}).then((r)=>{
+                        //     if(r){
+                        //         // 再次购买
+                        //         this.$router.push({name: 'cart', query: {orderid: val.ordersettlementid}})
+                        //     }
+                        // })
+
+                    }
+                }
                 break
-        }
+            }
     }
 
     // 时间转换
@@ -81,10 +221,17 @@ export default class Page extends Component<Props> {
                         {this.transformTime(data.time)}
                     </Text>
                     <Text className='status'>
-                        {this.statusShow(data.orderstatus)}
+                        {this.orderList(data, 'orderStatus')}
                     </Text>
                 </View>
-                <View className='goods_center'>
+                <View 
+                    className='goods_center'
+                    onClick={() => {
+                        Taro.navigateTo({
+                            url: `/pages/orderinfo/index?orderid=${data.ordersettlementid}`
+                        })
+                    }}
+                >
                     {data.goods.length === 1 ? (
                         <View className='goods_one'>
                             <View className='goods_img'>
@@ -129,7 +276,11 @@ export default class Page extends Component<Props> {
                         {this.payContent(data.orderstatus)}：
                         <Text className='price_num'>&yen;{data.price}</Text>
                     </Text>
-                    <Button className='goods_btn'>提醒发货</Button>
+                    {
+                        this.orderList(data,'orderBindContent') !== '' 
+                        && 
+                        <Button className='goods_btn'>{this.orderList(data,'orderBindContent')}</Button>
+                    }           
                 </View>
             </View>
         )

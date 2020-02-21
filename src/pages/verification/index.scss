@@ -1,0 +1,72 @@
+.verification{
+    .title{
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        font-size: 14px;
+    }
+    .show{
+        position: relative;
+        .banner{
+            width: 100%;
+            height: 200px;
+        }
+        .tips{
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background: rgba($color: #000000, $alpha: 0.8);
+            color: #fff;
+            font-size: 14px;
+            position: absolute;
+            bottom: 0;
+        }
+    }
+    .order{
+        line-height: 40px;
+        margin: 0 15px;
+        font-size: 18px;
+        font-weight: bold;
+        border-bottom: solid 1px #eaeaea;
+        .num{
+            font-size: 14px;
+            font-weight: normal;
+        }
+    }
+    .options{
+        margin: 0 15px;
+        line-height: 40px;
+        display: flex;
+        border-bottom: solid 1px #eaeaea;   
+        .name{
+            flex: 1;
+            font-size: 14px;
+            color: #999;
+        }
+        .value{
+            flex: 4;
+            font-size: 14px;
+            color: #333;
+            height: 40px;
+            line-height: 40px;
+        }
+    }
+    .tips{
+        font-size: 14px;
+        color: #999;
+        padding: 10px 15px 0;
+    }
+    .action{
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        color: #fff;
+        background: #f23030;
+        text-align: center;
+    }
+}

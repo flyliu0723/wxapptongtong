@@ -11,6 +11,7 @@
     .option {
         flex: 1;
         text-align: center;
+        position: relative;
         .img {
             width: 23px;
             height: 20px;
@@ -20,6 +21,20 @@
             color: #090909;
             display: block;
             margin-top: -35px;
+        }
+        .cart-num{
+            width: 18px;
+            height: 18px;
+            text-align: center;
+            line-height: 18px;
+            background: #f23030;
+            color: #fff;
+            border: 2px solid #fff;
+            font-size: 8px;
+            position: absolute;
+            right: 1px;
+            top: 1px;
+            border-radius: 18px;
         }
     }
     .btn {

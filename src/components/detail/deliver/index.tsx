@@ -39,6 +39,11 @@ export default class Delivery extends Component<Props> {
                     className='service'
                     onClick={() => this.props.showService()}
                 >
+                    {
+                        data.service.length === 0
+                            ? <View className='have'>现货</View>
+                            : ''
+                    }
                     {data.service.map((d) => {
                         return (
                             <View key={d.title} className='tab'>

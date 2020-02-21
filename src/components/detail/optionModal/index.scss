@@ -57,7 +57,9 @@
                     font-size: 14px;
                     border: solid 1px #eaeaea;
                     margin-right: 10px;
+                    margin-bottom:  15px;
                     border-radius: 5px;
+                    display: inline-block;
                 }
                 .active {
                     border: solid 1px #e60c12;
@@ -99,6 +101,10 @@
             }
             .add-cart {
                 background: #212121;
+            }
+            .no-stock{
+                background: #FFC107;
+                color: #212121;
             }
         }
     }

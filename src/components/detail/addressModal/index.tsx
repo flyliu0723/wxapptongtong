@@ -5,6 +5,8 @@ import './index.scss'
 interface Props {
     hide: any
     data: any
+    showOtherAddress: any
+    changeAddress: any
 }
 export default class Promotion extends Component<Props> {
     constructor(props) {
@@ -41,6 +43,9 @@ export default class Promotion extends Component<Props> {
                                             ? 'tab active'
                                             : 'tab'
                                     }
+                                    onClick={() => {
+                                        this.props.changeAddress(d)
+                                    }}
                                 >
                                     <Image
                                         src='//timgs-v1.tongtongmall.com/ae26cad0514148cbb915b2739a62e958'
@@ -54,7 +59,7 @@ export default class Promotion extends Component<Props> {
                             )
                         })}
                     </View>
-                    <View className='actions'>选择其他地址</View>
+                    <View className='actions' onClick={this.props.showOtherAddress}>选择其他地址</View>
                 </View>
             </View>
         )

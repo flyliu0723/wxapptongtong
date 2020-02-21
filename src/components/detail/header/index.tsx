@@ -3,20 +3,25 @@ import { View, Label } from '@tarojs/components'
 import './index.scss'
 
 interface Props {
-    inTab: string
+    inTab: string,
+    goodsid: string
+    goodstradestate: string
 }
 
 export default class Header extends Component<Props> {
     config: Config = {}
+    constructor(props) {
+        super(props)
+    }
     onTap(e, inTab) {
         e.stopPropagation()
-        if (inTab === this.props.inTab) return
+        if (inTab === this.props.inTab || this.props.goodstradestate === '1') return
         const to = {
-            goods: '/pages/detail/index',
-            detail: '/pages/detail/detail/index',
-            assess: '/pages/detail/assess/index'
+            goods: '/pages/detail/index?goodsid=' + this.props.goodsid,
+            detail: '/pages/detail/detail/index?goodsid=' + this.props.goodsid,
+            assess: '/pages/detail/assess/index?goodsid=' + this.props.goodsid
         }
-        Taro.navigateTo({
+        Taro.redirectTo({
             url: to[inTab]
         })
     }

@@ -31,6 +31,24 @@ export default class Page extends Component {
         useScoreNum: '0'
     }
     componentDidMount() {
+        this.checkOrder()
+    }
+    componentDidShow() {
+        Taro.getStorage({ key: 'useCoupon' }).then((d) => {
+            if(d.data.type === 0){
+                this.setState({
+                    useCoupon: d.data.id
+                })
+            }else {
+                this.setState({
+                    useFreightCoupon: d.data.id
+                })
+            }
+            
+        })
+        this.checkOrder()
+    }
+    checkOrder() {
         if (this.$router.params.goodsid) {
             http.post('user/order-check-ver2', {
                 ispick: '0',
@@ -61,6 +79,13 @@ export default class Page extends Component {
             goodsList
         })
     }
+    getCouponList(type) {
+        let coupon: any = []
+        this.state.orderData && this.state.orderData.couponList && this.state.orderData.couponlist.forEach(c => {
+            if(c.iscan === '1' && c.coupontype === type.toString()) coupon.push(c)
+        })
+        return coupon
+    }
     choiceScore() {
         this.setState({ useScore: !this.state.useScore })
     }
@@ -76,20 +101,26 @@ export default class Page extends Component {
             tk: 10,
             tags: []
         }
-        param.goods = [
-            {
-                itemid: this.$router.params.goodsid,
-                type: this.$router.params.type,
-                buycount: this.$router.params.buycount
-            }
-        ]
+        if(this.$router.params.goodsid) {
+            param.goods = [
+                {
+                    itemid: this.$router.params.goodsid,
+                    type: this.$router.params.type,
+                    buycount: this.$router.params.buycount
+                }
+            ]
+        }
+        
         http.post('user/order-submit-ver2', param).then((d) => {
             http.post('user/order-compute-ver2', {
                 source: 2,
                 list: d.data.list
             }).then((d) => {
+                let ordersettlementid = d.data.list.reduce((o, n) => {
+                    return o.ordersettlementid + '_' + n.ordersettlementid
+                })
                 Taro.navigateTo({
-                    url: `pages/pay/index?ordersettlementid=${d.data.list[0].ordersettlementid}`
+                    url: `pages/pay/index?ordersettlementid=${ordersettlementid}`
                 })
             })
         })
@@ -97,7 +128,7 @@ export default class Page extends Component {
     render() {
         return (
             <View className='view'>
-                {auth.loginStatus && this.state.orderData !== '' ? (
+                {auth.loginStatus ? (
                     <Address data={this.state.orderData.address} />
                 ) : (
                     <NoLogin />
@@ -142,12 +173,13 @@ export default class Page extends Component {
                     <Text className='name'>
                         商品优惠券
                         <Text>
-                            [{this.state.orderData.couponlist.length}张可用]
+                            [{this.getCouponList(0).length}张可用]
                         </Text>
                     </Text>
                     <View
                         className='to'
                         onClick={() => {
+                            // if(this.getCouponList(0).length === 0) return
                             Taro.navigateTo({
                                 url: '/pages/checkorder/coupon/index?type=0'
                             })
@@ -157,33 +189,44 @@ export default class Page extends Component {
                             })
                         }}
                     >
-                        未使用
+                        {
+                            this.state.useFreightCoupon === '' ? '未使用' : '[已选1张]'
+                        }
+                        
                         <Image src='//timgs-v1.tongtongmall.com/ef40daf1' />
                     </View>
                 </View>
-                <View className='use'>
-                    <Text className='name'>
-                        运费优惠券
-                        <Text>
-                            [{this.state.orderData.couponlist.length}张可用]
-                        </Text>
-                    </Text>
-                    <View
-                        className='to'
-                        onClick={() => {
-                            Taro.navigateTo({
-                                url: '/pages/checkorder/coupon/index?type=2'
-                            })
-                            Taro.setStorage({
-                                key: 'couponList',
-                                data: this.state.orderData.couponlist
-                            })
-                        }}
-                    >
-                        未使用
-                        <Image src='//timgs-v1.tongtongmall.com/ef40daf1' />
-                    </View>
-                </View>
+                {
+                    this.getCouponList(2).length > 0
+                        ? <View className='use'>
+                            <Text className='name'>
+                                运费优惠券
+                                <Text>
+                                    [{this.getCouponList(2).length}张可用]
+                                </Text>
+                            </Text>
+                            <View
+                                className='to'
+                                onClick={() => {
+                                    // if(this.getCouponList(2).length === 0) return
+                                    Taro.navigateTo({
+                                        url: '/pages/checkorder/coupon/index?type=2'
+                                    })
+                                    Taro.setStorage({
+                                        key: 'couponList',
+                                        data: this.state.orderData.couponlist
+                                    })
+                                }}
+                            >
+                                {
+                                    this.state.useCoupon === '' ? '未使用' : '[已选1张]'
+                                }
+                                <Image src='//timgs-v1.tongtongmall.com/ef40daf1' />
+                            </View>
+                        </View>
+                        : ''
+                }
+                
                 <View className='use'>
                     <Text className='name'>
                         积分抵扣

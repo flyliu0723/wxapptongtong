@@ -28,6 +28,11 @@ export default class Page extends Component<Props> {
             }).then((d) => {
                 this.props.getdata()
             })
+        } else {
+            Taro.showToast({
+                title: '不能删除默认地址',
+                icon: 'none'
+            })
         }
     }
     render() {
@@ -57,7 +62,14 @@ export default class Page extends Component<Props> {
                     </View>
 
                     <View className='handle'>
-                        <View className='edit'>
+                        <View 
+                            className='edit'
+                            onClick={() => {
+                                Taro.navigateTo({
+                                    url: `/pages/address/edit/index?id=${data.addrid}`
+                                })
+                            }}
+                        >
                             <Image
                                 className='img'
                                 src='//timgs-v1.tongtongmall.com/6d2e6f51'

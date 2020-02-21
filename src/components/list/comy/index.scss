@@ -1,0 +1,73 @@
+.comy {
+    background: rgba(0,0,0,.7);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 101;
+    font-size: 14px;
+    color: #666;
+    .comy_con {
+        background: #fff;
+        width: 85%;
+        height: 100%;
+        margin-left: 15%;
+        position: relative;
+        .title {
+            height: 45px;
+            line-height: 45px;
+            text-align: center;
+            color: #f23030;
+            padding: 0 10px;
+            margin: 0;
+        }
+        .float_left {
+            float: left;
+            color: #666;
+        }
+        .float_right {
+            float: right;
+            color: #666;
+        }
+        .text_red {
+            color: #f23030;
+        }
+        .reset {
+            width:40%;
+            border: 1px solid #f23030;
+            color: #f23030;
+            background: none;
+            border-radius: 5px;
+            height: 46px;
+            display: block;
+            margin: 50px auto;
+            outline: none;
+            font-size: 14px;
+            line-height: 46px;
+        }
+
+        // 主页
+        .home_page {
+            .home_list {
+                width: 100%;
+                height: auto;
+                padding: 0 10px;
+                border-top: 8px solid #f3f3f3;
+                margin-top: 0;
+                .list_option {
+                    width: calc(100% - 20px);
+                    border-bottom: 1px solid #f3f3f3;
+                    height: 46px;
+                    line-height: 46px;
+                    .more {
+                        width: 7.6px;
+                        height: 14px;
+                        margin-top: -2.5px;
+                        vertical-align: middle;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -4,7 +4,7 @@
     padding-top: 10px;
 }
 .add-new {
-    width: 100%;
+    width: 260px;
     background: #f23030;
     line-height: 40px;
     height: 40px;
@@ -12,8 +12,10 @@
     font-size: 14px;
     text-align: center;
     position: fixed;
-    left: 0;
-    bottom: 0;
+    left: 50%;
+    margin-left: -130px;
+    bottom: 50px;
+    border-radius: 50px;
 }
 .no-list {
     text-align: center;

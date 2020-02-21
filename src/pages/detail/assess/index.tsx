@@ -20,7 +20,8 @@ export default class Page extends Component {
         type: 1,
         btns: [],
         list: [],
-        canload: true
+        canload: true,
+        goodsid: this.$router.params.goodsid 
     }
     config: Config = {
         navigationBarTitleText: '商品详情'
@@ -34,7 +35,7 @@ export default class Page extends Component {
                 canload: false
             })
             http.get('product/prodetail-comment', {
-                goodsid: 'b14b5084-b7a8-4204-8228-89bb10170bdf',
+                goodsid: this.state.goodsid,
                 type: this.state.type,
                 curpage: this.state.curpage,
                 pagesize: this.state.pagesize
@@ -75,7 +76,7 @@ export default class Page extends Component {
     render() {
         return (
             <View className='view'>
-                <Header inTab='assess' />
+                <Header inTab='assess' goodsid={this.state.goodsid}/>
                 <View className='action'>
                     {this.state.btns.map((b: any) => {
                         return (

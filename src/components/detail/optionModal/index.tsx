@@ -37,7 +37,13 @@ export default class Promotion extends Component<Props> {
                     buycount: this.state.num
                 }
             ]
-        }).then((d) => {})
+        }).then((d) => {
+            Taro.showToast({
+                title: '成功加入购物车',
+                icon: 'none'
+            })
+            this.props.hide()
+        })
     }
     changeStand(id, data) {
         let index = -1,
@@ -55,7 +61,6 @@ export default class Promotion extends Component<Props> {
     }
     render() {
         let { data, price, inGoodsstand } = this.props
-        console.log(inGoodsstand)
         return (
             <View className='promotion'>
                 <View className='content'>
@@ -127,20 +132,29 @@ export default class Promotion extends Component<Props> {
                             />
                         </View>
                     </View>
-                    <View className='actions'>
-                        <View
-                            className='action buy-now'
-                            onClick={() => this.buynow()}
-                        >
-                            立即购买
-                        </View>
-                        <View
-                            className='action add-cart'
-                            onClick={() => this.addCart()}
-                        >
-                            加入购物车
-                        </View>
-                    </View>
+                    {
+                        inGoodsstand.stock === '0'
+                            ? <View className='actions'>
+                                <View className='action no-stock'>
+                                    到货提醒
+                                </View>
+                            </View>
+                            :<View className='actions'>
+                                <View
+                                    className='action buy-now'
+                                    onClick={() => this.buynow()}
+                                >
+                                    立即购买
+                                </View>
+                                <View
+                                    className='action add-cart'
+                                    onClick={() => this.addCart()}
+                                >
+                                    加入购物车
+                                </View>
+                            </View>
+                    }
+                    
                 </View>
             </View>
         )
